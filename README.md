@@ -1,5 +1,13 @@
 # Epic Seven Gear Score Calculator
 
+## How to run the project
+
+1) Make sure Poetry is installed.
+
+2) Execute the following command: `poetry run project`
+
+## What is the gear score calculator?
+
 Given a screenshot of gear like so:
 ![image](https://user-images.githubusercontent.com/24401134/189648150-1c6909ea-d53e-4764-81c5-09c264d9e624.png)
 
