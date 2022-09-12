@@ -1,4 +1,3 @@
-from ast import main
 import pyautogui
 
 def main():
