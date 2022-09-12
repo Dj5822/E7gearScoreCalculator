@@ -2,12 +2,13 @@
 name = "e7-gear-calc"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Dylan Jung <dj5822@gmail.com>"]
 readme = "README.md"
 packages = [{include = "e7_gear_calc"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+PyAutoGUI = "^0.9.53"
 
 
 [build-system]
