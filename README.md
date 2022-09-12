@@ -1,3 +1,5 @@
+# Epic Seven Gear Score Calculator
+
 Given a screenshot of gear like so:
 ![image](https://user-images.githubusercontent.com/24401134/189648150-1c6909ea-d53e-4764-81c5-09c264d9e624.png)
 
