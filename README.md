@@ -1,6 +1,8 @@
 # Epic Seven Gear Score Calculator
+Note this program is used for a monitor with a resolution of 2560 x 1440, you should be at this ![image](https://user-images.githubusercontent.com/24401134/189886529-b89f773b-695a-42f2-808a-dc81bdef99a7.png)
+ screen before activating the script.
 
-## How to run the project
+## How to run the script
 
 1) Make sure Poetry is installed.
 
