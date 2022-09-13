@@ -11,7 +11,10 @@ def record_output(output_text, img):
     width, height = img.size
     img = img.resize((int(width/4), int(height/4)))
 
-    document = Document("output.docx")
+    try:
+        document = Document("output.docx")
+    except:
+        document = Document()
 
     p = document.add_paragraph()
     r = p.add_run()
@@ -44,8 +47,8 @@ def get_info(row):
 def filter_image(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    lower = np.array([0, 0, 100])
-    upper = np.array([0, 0, 180])
+    lower = np.array([0, 0, 83])
+    upper = np.array([0, 0, 200])
 
     filteredImg = cv2.inRange(hsv, lower, upper)
 
