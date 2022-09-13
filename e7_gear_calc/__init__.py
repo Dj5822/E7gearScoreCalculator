@@ -40,7 +40,7 @@ def get_rows(str):
 
 
 def get_info(row):
-    return [''.join([i for i in row if not i.isdigit()]), ''.join([i for i in row if i.isdigit()])]
+    return [''.join([i for i in row if not i.isdigit() and i != " "]), ''.join([i for i in row if i.isdigit()])]
 
 def get_gear_score_from_image(image):
     multipliers = {
