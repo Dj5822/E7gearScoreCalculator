@@ -6,15 +6,7 @@
 
 2) Execute the following command: `poetry run project`
 
-## What is the gear score calculator?
-
-Given a screenshot of gear like so:
-![image](https://user-images.githubusercontent.com/24401134/189648150-1c6909ea-d53e-4764-81c5-09c264d9e624.png)
-
-It should output the score like so:
-![image](https://user-images.githubusercontent.com/24401134/189648547-b62266bf-e4cc-426d-bb00-90734b64efbb.png)
-
-Calculation method:
+## Calculation method
 
 Attack%/Health%/Defense%/Eff/Effres - 1 point per 1%	
 
