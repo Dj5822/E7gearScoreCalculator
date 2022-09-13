@@ -41,7 +41,9 @@ def get_gear_score_from_image(image):
         "Health": (1/60),
         "Defense": (1/6),
         "CriticalHitChance%": 1.6,
+        "criticalHitChance%": 1.6,
         "CriticalHitDamage%": 1.1,
+        "criticalHitDamage%": 1.1,
         "Speed": 1.8
     }
 
