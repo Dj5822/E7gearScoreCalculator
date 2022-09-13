@@ -1,4 +1,5 @@
 from PIL import Image
+import pyautogui
 import pytesseract
 import cv2
 import numpy as np
@@ -11,7 +12,7 @@ def get_rows(str):
 def get_info(row):
     return [''.join([i for i in row if not i.isdigit() and i != " "]), ''.join([i for i in row if i.isdigit()])]
 
-def main():
+def get_gear_score_from_image(image):
     multipliers = {
         "Attack%": 1,
         "Health%": 1,
@@ -27,7 +28,7 @@ def main():
 
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 
-    gearImage = cv2.imread('test4.png')
+    gearImage = np.array(image)
 
     hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
 
@@ -46,6 +47,10 @@ def main():
         print(stat_name + ": " + statValue)
         score += multipliers[stat_name] * int(statValue)
     
-    print(score)
+    return score
+
+def main():
+    image = pyautogui.screenshot(region=(693, 773, 500, 200))
+    print(get_gear_score_from_image(image))
 
 main()
