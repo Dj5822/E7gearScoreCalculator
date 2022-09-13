@@ -5,7 +5,7 @@ Note this program is used for a monitor with a resolution of 2560 x 1440, you sh
 
 ## How to run the script
 
-1) Make sure Poetry is installed.
+1) Make sure the latest version of Python and Poetry is installed.
 
 2) Execute the following command: `poetry run project`
 
