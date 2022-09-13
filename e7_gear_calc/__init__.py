@@ -69,7 +69,7 @@ def get_gear_score_from_image(image):
 
         hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
 
-        lower = np.array([0, 0, 80])
+        lower = np.array([0, 0, 60])
         upper = np.array([0, 0, 180])
 
         filteredImg = cv2.inRange(hsv, lower, upper)
@@ -92,6 +92,7 @@ def get_gear_score_from_image(image):
     except Exception as e:
         print("An error occurred: " + str(e))
         print(rows)
+        print(result)
         return "Error"
 
     
