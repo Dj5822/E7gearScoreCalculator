@@ -44,25 +44,23 @@ def get_info(row):
 def filter_image(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    lower = np.array([0, 0, 40])
+    lower = np.array([0, 0, 100])
     upper = np.array([0, 0, 180])
 
     filteredImg = cv2.inRange(hsv, lower, upper)
 
     return filteredImg
 
-def get_gear_score_from_image(image, filter=False):
+def get_gear_score_from_image(image, filter=True):
     multipliers = {
         "Attack%": 1,
         "Health%": 1,
         "Defense%": 1,
-        "Defenses%": 1,
         "EffectResistance%": 1,
         "Effectiveness%": 1,
         "Attack": (1/12),
         "Health": (1/60),
         "Defense": (1/6),
-        "Defenses": (1/6),
         "CriticalHitChance%": 1.6,
         "criticalHitChance%": 1.6,
         "CriticalHitDamage%": 1.1,
@@ -87,8 +85,13 @@ def get_gear_score_from_image(image, filter=False):
 
         for row in rows:
             stat_name, statValue = get_info(row)
-            output += (stat_name + ": " + str(statValue) + "\n")
+            if stat_name not in multipliers:
+                if stat_name[-1:] == "%":
+                    stat_name = stat_name[:-2] + stat_name[-1:]
+                else:
+                    stat_name = stat_name[:-1]
             score += multipliers[stat_name] * int(statValue)
+            output += (stat_name + ": " + str(statValue) + "\n")
         
         output += ("Score: " + str(score) + "\n")
         
