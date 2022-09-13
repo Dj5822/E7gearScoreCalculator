@@ -5,7 +5,7 @@ Note this program is used for a monitor with a resolution of 2560 x 1440, you sh
 
 ## How to run the script
 
-1) Make sure the latest version of Python and Poetry is installed.
+1) Make sure the latest version of Python and Poetry is installed. You also need to install Tesseract in the following directory: 'C:\Program Files\Tesseract-OCR\tesseract'. Obviously, you can tell from the path that this is meant to only run on Windows.
 
 2) Execute the following command: `poetry run project`
 
