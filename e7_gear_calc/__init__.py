@@ -34,6 +34,7 @@ def get_gear_score_from_image(image):
     multipliers = {
         "Attack%": 1,
         "Health%": 1,
+        "Defense%": 1,
         "EffectResistance%": 1,
         "Effectiveness%": 1,
         "Attack": (1/12),
@@ -56,18 +57,20 @@ def get_gear_score_from_image(image):
 
         filteredImg = cv2.inRange(hsv, lower, upper)
 
-        result = pytesseract.image_to_string(filteredImg, config="-c tessedit_char_whitelist=0123456789pEHgeRsvdnSaickrClmhfAt%D")   
+        result = pytesseract.image_to_string(filteredImg, config="-c tessedit_char_whitelist=%0123456789pEHgeRsvdnSaickrClmhfAtD")   
         
         rows = get_rows(result)
         score = 0
 
         for row in rows:
             stat_name, statValue = get_info(row)
-            score += multipliers[stat_name] * int(statValue)
             print(stat_name + ": " + statValue)
+            score += multipliers[stat_name] * int(statValue)
+            
         
         return score
-    except:
+    except Exception as e:
+        print(str(e))
         print(result)
         return 0
 
