@@ -38,11 +38,20 @@ def get_rows(str):
 
     return output
 
-
 def get_info(row):
     return [''.join([i for i in row if not i.isdigit() and i != " "]), ''.join([i for i in row if i.isdigit()])]
 
-def get_gear_score_from_image(image):
+def filter_image(image):
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    lower = np.array([0, 0, 40])
+    upper = np.array([0, 0, 180])
+
+    filteredImg = cv2.inRange(hsv, lower, upper)
+
+    return filteredImg
+
+def get_gear_score_from_image(image, filter=False):
     multipliers = {
         "Attack%": 1,
         "Health%": 1,
@@ -67,14 +76,10 @@ def get_gear_score_from_image(image):
     try:
         gearImage = np.array(image)
 
-        hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
+        if filter:
+            gearImage = filter_image(gearImage)
 
-        lower = np.array([0, 0, 60])
-        upper = np.array([0, 0, 180])
-
-        filteredImg = cv2.inRange(hsv, lower, upper)
-
-        result = pytesseract.image_to_string(filteredImg, config="-c tessedit_char_whitelist=%0123456789pEHgeRsvdnSaickrClmhfAtD")   
+        result = pytesseract.image_to_string(gearImage, config="-c tessedit_char_whitelist=%0123456789pEHgeRsvdnSaickrClmhfAtD")   
         
         rows = get_rows(result)
         output = "\n"
@@ -86,17 +91,17 @@ def get_gear_score_from_image(image):
             score += multipliers[stat_name] * int(statValue)
         
         output += ("Score: " + str(score) + "\n")
-            
         
         return output
+
     except Exception as e:
         print("An error occurred: " + str(e))
         print(rows)
         print(result)
+        cv2.imshow('image', gearImage)
+        cv2.waitKey(0)
         return "Error"
-
     
-
 def main():
     mainImage = pyautogui.screenshot(region=(680, 223, 720, 770))
     statsImage = pyautogui.screenshot(region=(680, 773, 650, 250))
@@ -108,7 +113,5 @@ def main():
 
         # Record the result into a document.
         record_output(output, mainImage)
-    else:
-        statsImage.show()
 
 main()
