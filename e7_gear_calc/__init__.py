@@ -50,7 +50,9 @@ def get_gear_score_from_image(image):
     return score
 
 def main():
-    image = pyautogui.screenshot(region=(693, 773, 500, 200))
-    print(get_gear_score_from_image(image))
+    mainImage = pyautogui.screenshot(region=(693, 223, 520, 770))
+    statsImage = pyautogui.screenshot(region=(693, 773, 500, 200))
+    print("Score: " + str(get_gear_score_from_image(statsImage)))
+    mainImage.show()
 
 main()
