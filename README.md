@@ -20,5 +20,12 @@ Crit Chance - 1.6 points per 1%
 
 Crit Damage - 1.1 points per 1%	
 
-Speed - 1.8 points per 1	
+Speed - 1.8 points per 1
 
+Gear score:
+
+|        | +15 | +12 | +9  | +6  | +3  | +0  |
+|--------|-----|-----|-----|-----|-----|-----|
+| Decent | >50 | >44 | >38 | >32 | >26 | >20 |
+| Good   | >60 | >54 | >48 | >42 | >36 | >30 |
+| Best   | 72  | 64  | 56  | 48  | 40  | 32  |
