@@ -8,6 +8,9 @@ from docx.shared import Inches
 import io
 
 def record_output(score, img):
+    width, height = img.size
+    img = img.resize((int(width/4), int(height/4)))
+
     document = Document("output.docx")
 
     p = document.add_paragraph()
@@ -43,40 +46,45 @@ def get_gear_score_from_image(image):
 
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 
-    gearImage = np.array(image)
+    try:
+        gearImage = np.array(image)
 
-    """
-    hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
+        hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
 
-    lower = np.array([0, 0, 80])
-    upper = np.array([0, 0, 255])
+        lower = np.array([0, 0, 80])
+        upper = np.array([0, 0, 255])
 
-    filteredImg = cv2.inRange(hsv, lower, upper)
-    """
+        filteredImg = cv2.inRange(hsv, lower, upper)
 
-    result = pytesseract.image_to_string(gearImage)
+        result = pytesseract.image_to_string(filteredImg, config="-c tessedit_char_whitelist=0123456789pEHgeRsvdnSaickrClmhfAt%D")   
+        
+        rows = get_rows(result)
+        score = 0
+
+        for row in rows:
+            stat_name, statValue = get_info(row)
+            score += multipliers[stat_name] * int(statValue)
+            print(stat_name + ": " + statValue)
+        
+        return score
+    except:
+        print(result)
+        return 0
+
     
-    
-    rows = get_rows(result)
-    score = 0
 
-    for row in rows:
-        stat_name, statValue = get_info(row)
-        print(stat_name + ": " + statValue)
-        score += multipliers[stat_name] * int(statValue)
-    
-    return score
-
-def main():    
+def main():
     mainImage = pyautogui.screenshot(region=(693, 223, 720, 770))
-    statsImage = pyautogui.screenshot(region=(693, 773, 700, 200))
+    statsImage = pyautogui.screenshot(region=(693, 773, 650, 250))
+
     score = str(get_gear_score_from_image(statsImage))
-    print("Score: " + score)
 
-    width, height = mainImage.size
-    mainImage = mainImage.resize((int(width/4), int(height/4)))
+    if score != "0":
+        print("Score: " + score)
 
-    # Record the result into a document.
-    record_output(score, mainImage)
+        # Record the result into a document.
+        record_output(score, mainImage)
+    else:
+        statsImage.show()
 
 main()
