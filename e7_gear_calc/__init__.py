@@ -25,21 +25,35 @@ def record_output(score, img):
 def get_rows(str):
     rows = str.split('\n')
     rows.pop()
-    return rows
+    
+    output = []
+    index = 0
+
+    for row in rows:
+        if len(row) > 3:
+            output.append(row)
+        elif len(row) >= 1:
+            output[index] = output[index] + row
+            index += 1            
+
+    return output
+
 
 def get_info(row):
-    return [''.join([i for i in row if not i.isdigit() and i != " "]), ''.join([i for i in row if i.isdigit()])]
+    return [''.join([i for i in row if not i.isdigit()]), ''.join([i for i in row if i.isdigit()])]
 
 def get_gear_score_from_image(image):
     multipliers = {
         "Attack%": 1,
         "Health%": 1,
         "Defense%": 1,
+        "Defenses%": 1,
         "EffectResistance%": 1,
         "Effectiveness%": 1,
         "Attack": (1/12),
         "Health": (1/60),
         "Defense": (1/6),
+        "Defenses": (1/6),
         "CriticalHitChance%": 1.6,
         "criticalHitChance%": 1.6,
         "CriticalHitDamage%": 1.1,
@@ -48,6 +62,7 @@ def get_gear_score_from_image(image):
     }
 
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+    rows = []
 
     try:
         gearImage = np.array(image)
@@ -55,7 +70,7 @@ def get_gear_score_from_image(image):
         hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
 
         lower = np.array([0, 0, 80])
-        upper = np.array([0, 0, 255])
+        upper = np.array([0, 0, 180])
 
         filteredImg = cv2.inRange(hsv, lower, upper)
 
@@ -72,15 +87,15 @@ def get_gear_score_from_image(image):
         
         return score
     except Exception as e:
-        print(str(e))
-        print(result)
+        print("An error occurred while parsing " + str(e))
+        print(rows)
         return 0
 
     
 
 def main():
-    mainImage = pyautogui.screenshot(region=(693, 223, 720, 770))
-    statsImage = pyautogui.screenshot(region=(693, 773, 650, 250))
+    mainImage = pyautogui.screenshot(region=(680, 223, 720, 770))
+    statsImage = pyautogui.screenshot(region=(680, 773, 650, 250))
 
     score = str(get_gear_score_from_image(statsImage))
 
