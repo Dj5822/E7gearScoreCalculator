@@ -7,7 +7,7 @@ from docx import Document
 from docx.shared import Inches
 import io
 
-def record_output(score, img):
+def record_output(output_text, img):
     width, height = img.size
     img = img.resize((int(width/4), int(height/4)))
 
@@ -18,7 +18,7 @@ def record_output(score, img):
     image_file = io.BytesIO()
     img.save(image_file, format="PNG")
     r.add_picture(image_file)
-    r.add_text("Score: " + score)
+    r.add_text(output_text)
 
     document.save("output.docx")
 
@@ -77,19 +77,22 @@ def get_gear_score_from_image(image):
         result = pytesseract.image_to_string(filteredImg, config="-c tessedit_char_whitelist=%0123456789pEHgeRsvdnSaickrClmhfAtD")   
         
         rows = get_rows(result)
+        output = "\n"
         score = 0
 
         for row in rows:
             stat_name, statValue = get_info(row)
-            print(stat_name + ": " + statValue)
+            output += (stat_name + ": " + str(statValue) + "\n")
             score += multipliers[stat_name] * int(statValue)
+        
+        output += ("Score: " + str(score) + "\n")
             
         
-        return score
+        return output
     except Exception as e:
-        print("An error occurred while parsing " + str(e))
+        print("An error occurred: " + str(e))
         print(rows)
-        return 0
+        return "Error"
 
     
 
@@ -97,13 +100,13 @@ def main():
     mainImage = pyautogui.screenshot(region=(680, 223, 720, 770))
     statsImage = pyautogui.screenshot(region=(680, 773, 650, 250))
 
-    score = str(get_gear_score_from_image(statsImage))
+    output = str(get_gear_score_from_image(statsImage))
 
-    if score != "0":
-        print("Score: " + score)
+    if output != "Error":
+        print(output)
 
         # Record the result into a document.
-        record_output(score, mainImage)
+        record_output(output, mainImage)
     else:
         statsImage.show()
 
