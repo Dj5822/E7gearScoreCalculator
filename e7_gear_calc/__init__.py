@@ -3,6 +3,9 @@ import pyautogui
 import pytesseract
 import cv2
 import numpy as np
+from docx import Document
+from docx.shared import Inches
+import io
 
 def get_rows(str):
     rows = str.split('\n')
@@ -49,10 +52,25 @@ def get_gear_score_from_image(image):
     
     return score
 
-def main():
+def main():    
     mainImage = pyautogui.screenshot(region=(693, 223, 520, 770))
     statsImage = pyautogui.screenshot(region=(693, 773, 500, 200))
-    print("Score: " + str(get_gear_score_from_image(statsImage)))
-    mainImage.show()
+    score = str(get_gear_score_from_image(statsImage))
+    print("Score: " + score)
+
+    width, height = mainImage.size
+    mainImage = mainImage.resize((int(width/4), int(height/4)))
+
+    # Record the result into a document.
+    document = Document("output.docx")
+
+    p = document.add_paragraph()
+    r = p.add_run()
+    image_file = io.BytesIO()
+    mainImage.save(image_file, format="PNG")
+    r.add_picture(image_file)
+    r.add_text("Score: " + score)
+
+    document.save("output.docx")
 
 main()
