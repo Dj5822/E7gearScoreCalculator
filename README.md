@@ -1,6 +1,7 @@
 # Epic Seven Gear Score Calculator
 Note this program is used for a monitor with a resolution of 2560 x 1440, you should be at this ![image](https://user-images.githubusercontent.com/24401134/189886529-b89f773b-695a-42f2-808a-dc81bdef99a7.png)
- screen before activating the script.
+ screen before activating the script. It can work with other resolutions if you adjust the region values:
+![image](https://user-images.githubusercontent.com/24401134/189886942-24aadbad-7c6d-4cc1-b40c-299e417338de.png)
 
 ## How to run the script
 
