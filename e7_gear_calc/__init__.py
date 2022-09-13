@@ -7,6 +7,18 @@ from docx import Document
 from docx.shared import Inches
 import io
 
+def record_output(score, img):
+    document = Document("output.docx")
+
+    p = document.add_paragraph()
+    r = p.add_run()
+    image_file = io.BytesIO()
+    img.save(image_file, format="PNG")
+    r.add_picture(image_file)
+    r.add_text("Score: " + score)
+
+    document.save("output.docx")
+
 def get_rows(str):
     rows = str.split('\n')
     rows.pop()
@@ -33,14 +45,17 @@ def get_gear_score_from_image(image):
 
     gearImage = np.array(image)
 
+    """
     hsv = cv2.cvtColor(gearImage, cv2.COLOR_BGR2HSV)
 
     lower = np.array([0, 0, 80])
     upper = np.array([0, 0, 255])
 
     filteredImg = cv2.inRange(hsv, lower, upper)
+    """
 
-    result = pytesseract.image_to_string(filteredImg)
+    result = pytesseract.image_to_string(gearImage)
+    
     
     rows = get_rows(result)
     score = 0
@@ -53,8 +68,8 @@ def get_gear_score_from_image(image):
     return score
 
 def main():    
-    mainImage = pyautogui.screenshot(region=(693, 223, 520, 770))
-    statsImage = pyautogui.screenshot(region=(693, 773, 500, 200))
+    mainImage = pyautogui.screenshot(region=(693, 223, 720, 770))
+    statsImage = pyautogui.screenshot(region=(693, 773, 700, 200))
     score = str(get_gear_score_from_image(statsImage))
     print("Score: " + score)
 
@@ -62,15 +77,6 @@ def main():
     mainImage = mainImage.resize((int(width/4), int(height/4)))
 
     # Record the result into a document.
-    document = Document("output.docx")
-
-    p = document.add_paragraph()
-    r = p.add_run()
-    image_file = io.BytesIO()
-    mainImage.save(image_file, format="PNG")
-    r.add_picture(image_file)
-    r.add_text("Score: " + score)
-
-    document.save("output.docx")
+    record_output(score, mainImage)
 
 main()
