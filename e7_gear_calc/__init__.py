@@ -47,8 +47,8 @@ def get_info(row):
 def filter_image(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    lower = np.array([0, 0, 83])
-    upper = np.array([0, 0, 200])
+    lower = np.array([0, 0, 60])
+    upper = np.array([0, 0, 210])
 
     filteredImg = cv2.inRange(hsv, lower, upper)
 
@@ -110,7 +110,7 @@ def get_gear_score_from_image(image, filter=True):
     
 def main():
     mainImage = pyautogui.screenshot(region=(680, 223, 720, 770))
-    statsImage = pyautogui.screenshot(region=(680, 773, 650, 250))
+    statsImage = pyautogui.screenshot(region=(690, 740, 600, 250))
 
     output = str(get_gear_score_from_image(statsImage))
 
@@ -119,5 +119,3 @@ def main():
 
         # Record the result into a document.
         record_output(output, mainImage)
-
-main()
